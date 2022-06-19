@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="../dist/main.js" type=""text="text/javascript"></script>
+        <link rel ="stylesheet" href="./assets/styles.css" />
+        <title>Create Account</title>
+    </head>
+    <body>
+        <div id="root"> 
+            <h1>Create a User</h1>
+            <!-- <button onclick="DoSomething()">Start</button> -->
+            <br>
+            <div id = "form">
+                <!-- <form name="createUser" method="get" onsubmit="OtherFunc(this.form)"> -->
+                <form name="createUser" method="get">
+                    <label>
+                        Name: <input type="text" name="fullName" required/>
+                    </label>
+                        
+                    <label>
+                        Start Date: <input type="text" name="startDate" required />
+                    </label>
+                        
+                    <label>
+                        Title2: <input type="text" name="title" required />
+                    </label>
+
+                    <label>
+                        Legal Entitty: <input type="text" name="legalEntity" required />
+                    </label>
+
+                    <label>
+                        WorkState: <input type="text" name="state" required />
+                    </label>
+
+                    <label>
+                        Supervisor: <input type="text" name="supervisor" required />
+                    </label>
+                    
+                    <label>
+                        Department: <input type="text" name="department" required />
+                    </label>
+                    
+                    <label>
+                        Email Address: <input type="text" name="email" required />
+                    </label>
+                    <!-- <button type="submit">Submit</button> -->
+                    <!-- <input type="Submit" value="Submit"/> -->
+                    <input type="submit" value="Submit" onclick="OtherFunc(this.form)"/>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

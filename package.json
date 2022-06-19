@@ -1,0 +1,30 @@
+{
+  "name": "newuser2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build & node server",
+    "build": "webpack --mode=production",
+    "start:dev": "npm run start-server & npm run build-watch",
+    "build-watch": "webpack -w --mode=development",
+    "start-server": "nodemon server --ignore public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "axios": "^0.27.2",
+    "nodemon": "^2.0.16",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "browser": {
+    "child_process": false
+  }
+}
+
