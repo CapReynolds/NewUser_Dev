@@ -34,25 +34,26 @@ app.get('/api/stuff', async(req,res,next)=> {
 app.get('/api/newUser', async(req,res,next)=> {
     try{
         const { exec } = require('child_process');
- 
+        //alert("clicked");
         let usrObj = {
             name: req.query["name"],
             startDate: req.query["startDate"],
             title: req.query["title"],
             legalEntity: req.query["legalEntity"],
-            state: req.query["state"],
+            state: req.query["usrState"],
             supervisor: req.query["supervisor"],
             department: req.query["department"],
             email: req.query["email"]
         };
  
-        exec(`C:\\Users\\avernon\\Documents\\Scripts\\User\\newUsr1.ps1 '${usrObj.name}'  '${usrObj.startDate}'  '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.state}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}'`, {'shell':'powershell.exe'}, (err, stdout, stderr)=> {
-            // do whatever with stdout
-            if(err) console.log(err);
+        // exec(`C:\\Users\\avernon\\Documents\\Scripts\\User\\newUsr1.ps1 '${usrObj.name}'  '${usrObj.startDate}'  '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}'`, {'shell':'powershell.exe'}, (err, stdout, stderr)=> {
+        //     // do whatever with stdout
+        //     if(err) console.log(err);
  
-        })
+        // })
+        
  
-        res.send('in the axios post');
+        res.send('SUBMIT');
     }
     catch(ex){
         next(ex);
@@ -75,9 +76,6 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-// app.get("/scripts/require.js", (req, res) => {
-//     res.sendFile(path.join(__dirname, "../scripts/require.js"));
-// });
 
 // Error handling middleware
 app.use((err, req, res, next) => {

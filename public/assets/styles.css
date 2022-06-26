@@ -1,21 +1,122 @@
-label {
+body { 
+  background: url('./spidey3.jpg') repeat 0 0; 
+}
+
+/* #content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: center;
+} */
+
+/* form {
+  width: 35%;
+} */
+div #form {
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    width: 40%;
+    padding: 20px;
+    text-align: center;
+}
+
+
+/* #form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  border-color: blue;
+  padding: 20px;
+  width: 50%;
+  text-align: center;
+  position: relative;
+} */
+
+/* label {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    text-align: right;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
     width: 400px;
     line-height: 26px;
     margin-bottom: 10px;
-  }
-  
-  input {
+    border-color: blue;
+} */
+
+label {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-around; */
+  justify-content: flex-end;
+  margin-left: auto;
+  margin-right: auto; 
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+
+  /* label {
+    display: inline-block;
+    width: 140px;
+    text-align: right;
+  }​  */
+
+   /* input {
     height: 20px;
     flex: 0 0 200px;
     margin-left: 10px;
+  } */
+
+  input {
+    width: 50%;
+    margin-left: 30px;
+    /* display: flex;
+    justify-content: flex-end; */
   }
 
   select {
-    height: 20px;
+    width: 50%;
+    margin-left: 30px;
+    /* display: flex;
+    justify-content: flex-end; */
+  }
+
+  /* select {
+    height: 30px;
+    width: 50%;
     flex: 0 0 200px;
     margin-left: 10px;
+  } */
+
+  #logo {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+    text-align: center;
   }
+
+  img #marvel{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+  }
+
+  #button {
+    text-align: center;
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+ 

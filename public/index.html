@@ -1,64 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="../dist/main.js" type=""text="text/javascript"></script>
+        <script defer src="../dist/main.js" type=""text="text/javascript"></script>
         <link rel ="stylesheet" href="./assets/styles.css" />
         <title>Create Account</title>
     </head>
     <body>
-        <div id="root"> 
-            <h1>Create a User</h1>
-            <!-- <button onclick="DoSomething()">Start</button> -->
-            <br>
-            <div id = "form">
-                <!-- <form name="createUser" method="get" onsubmit="OtherFunc(this.form)"> -->
-                <form name="createUser" method="get">
-                    <label>
-                        Name: <input type="text" name="fullName" value="" required/>
-                    </label>
-                        
-                    <label>
-                        Start Date: <input type="text" name="startDate" value="" required />
-                    </label>
-                        
-                    <label>
-                        Title: <input type="text" name="title" value="" required />
-                    </label>
-
-                    <label>
-                        Legal Entitty: <input type="text" name="legalEntity" value="" required />
-                    </label>
-
-                    <label>
-                        Work State: 
-                        <select id="state">
-                            <option value="New York">New York</option>
-                            <option value="California">California</option>
-                        </select>
-                    </label>
-
-                    <label>
-                        Supervisor: <input type="text" name="supervisor" value="" required />
-                    </label>
-                    
-                    <label>
-                        Department: 
-                        <select id="department">
-                            <option value="Digital Media Production">Digital Media Production</option>
-                            <option value="Corporate IT">Corporate IT</option>
-                            <option value="Corporate Legal">Corporate Legal</option>
-                            <option value="Licensing - Creative Services">Licensing - Creative Services</option>
-                        </select>
-                    </label>
-                    
-                    <label>
-                        Email Address: <input type="text" name="email" value="" required />
-                    </label>
-                    <!-- <button type="submit">Submit</button> -->
-                    <!-- <input type="Submit" value="Submit"/> -->
-                    <input type="submit" value="Submit" onclick="OtherFunc(this.form)"/>
-                </form>
-            </div>
-        </div>
+        <div id="root"></div>
     </body>
 </html>
