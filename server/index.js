@@ -274,7 +274,7 @@ app.post('/api/singleUser', async (req,res,next)=> {
 
         //Remove special characters 
         TrimCheck(usrObj);
-        
+        console.log("yo");
     
         //Call the run to launch powershell and assign the stdout to output
         const output = await Run();
