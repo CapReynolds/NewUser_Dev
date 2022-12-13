@@ -1,5 +1,5 @@
 {
-  "name": "newuser2",
+  "name": "newuser",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,13 +9,16 @@
     "build": "webpack --mode=production",
     "start:dev": "npm run start-server & npm run build-watch",
     "build-watch": "webpack -w --mode=development",
-    "start-server": "nodemon server --ignore public"
+    "start-server": "nodemon server --ignore public",
+    "start:bld": "npm run build & npm run start:dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "express-fileupload": "^1.4.0",
+    "react-router": "^6.4.2",
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {

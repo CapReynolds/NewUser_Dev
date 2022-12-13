@@ -1,102 +1,153 @@
-body { 
-  background: url('./spidey3.jpg') repeat 0 0; 
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
-/* #content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  text-align: center;
-} */
+red{
+  color: red;
+}
 
-/* form {
-  width: 35%;
-} */
 div #form {
-  display: block;
+    display: block;
     margin-left: auto;
     margin-right: auto;
     border-radius: 5px;
     background-color: #f2f2f2;
-    width: 40%;
-    padding: 20px;
+    width: 50%;
+    height: 30%;
+    padding: 10px;
     text-align: center;
+    min-width: 450px;
+    font-size: 16px;
 }
 
-
-/* #form {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  border-color: blue;
-  padding: 20px;
-  width: 50%;
-  text-align: center;
-  position: relative;
-} */
-
-/* label {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
-    width: 400px;
-    line-height: 26px;
-    margin-bottom: 10px;
-    border-color: blue;
-} */
-
-label {
+#container {
   display: flex;
   flex-direction: row;
-  /* justify-content: space-around; */
-  justify-content: flex-end;
   margin-left: auto;
-  margin-right: auto; 
-  margin-bottom: 20px;
-  text-align: left;
+  margin-right: auto;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  width: 50%;
+  text-align: center;
 }
 
+#formVal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+}
 
-  /* label {
-    display: inline-block;
-    width: 140px;
-    text-align: right;
-  }​  */
+#formVal2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+  height: 100%;
+}
 
-   /* input {
-    height: 20px;
-    flex: 0 0 200px;
-    margin-left: 10px;
-  } */
+#formVal3 {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  padding: 15px;
+  /* margin: 5px; */
+  margin-right: 50px;
+}
 
-  input {
-    width: 50%;
-    margin-left: 30px;
-    /* display: flex;
-    justify-content: flex-end; */
-  }
+#formVal4 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+  /* margin: 5px; */
+}
 
-  select {
-    width: 50%;
-    margin-left: 30px;
-    /* display: flex;
-    justify-content: flex-end; */
-  }
+#label2 {
+  width: 15%;
+  margin-left: 35px; 
+  font-weight: bold;
+  text-align: left;
+  /* padding: 5px; */
+} 
 
-  /* select {
-    height: 30px;
-    width: 50%;
-    flex: 0 0 200px;
-    margin-left: 10px;
-  } */
+#radioID{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 85%;
+  border: 1px #ccc;
+  border-style: solid;
+  margin-right: 50px;
+  margin-left: 50px;
+  padding: 5px;
+}
+
+#label {
+  width: 20%;
+  margin-left: 35px; 
+  text-align: left;
+  font-weight: bold;
+} 
+
+#values {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  /* justify-content: right; */
+}
+
+#values2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  width: 70%;
+  /* margin-right: 20px; */
+}
+
+#textType {
+  width: 100%;
+  margin-left: 10px;
+  margin-right: 30px;
+  line-height: 25px;
+} 
+
+#textType2 {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin-left: 10px;
+  margin-right: 30px;
+  line-height: 25px;
+} 
+
+#radio {
+  width: 50%;
+  /* margin-left: 10px; */
+  margin-left: 10px;
+} 
+
+/* input .radio {
+  width: 25%;
+}  */
+
+select {
+  width: 100%;
+  height: 30px;
+  margin-left: 10px;
+  margin-right: 30px;
+} 
+
 
   #logo {
     margin: auto;
     width: 60%;
-    padding: 10px;
+    height: 30%;
+    padding: 5px;
     text-align: center;
   }
 
@@ -119,4 +170,56 @@ label {
     font-size: 16px;
   }
 
- 
+  .formButtons {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .tab {
+    margin: auto;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+  
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Style the tab content */
+  .tabbedcontent {
+    flex-direction: row;
+    /* display: none; */
+    /* padding: 6px 12px; */
+    /* border: 1px solid #ccc; */
+    border-top: none;
+  }
+  /*
+  @media (max-width: 850px){
+    #form{
+      background-color: blue;
+    }
+  }*/

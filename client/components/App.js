@@ -1,20 +1,15 @@
 import React, {useState} from 'react';
-import {Route, HashRouter, Switch} from "react-router-dom";
+//import {Route, Switch} from "react-router";
 
-import Form from "./Form";
+//import Form from "./Form";
 import Header from "./Header";
+import Main from "./Main";
 
-const App = () => {
-
-    return (
-        //<Route path="/" component={Form} exact />
-        <div>
-            <Header />
-            <Form />
-        </div>
-      
-    );
-    
-}
+const App = () =>  (
+    <div>
+        <Header />
+        <Main />
+    </div>
+)
 
 export default App;
