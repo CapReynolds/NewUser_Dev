@@ -98,7 +98,7 @@ const SingleUsr = () => {
                     </div>
                     <div id="radio">
                         <input type="radio" id="status" name="nm-marvel" value='nm-marvel' checked={status === 'nm-marvel'} onChange={e => setStatus(e.target.value)} />
-                        <label for="non-marvel">Non Marvel</label>
+                        <label for="non-marvel">Consultant/Non Marvel</label>
                     </div>
                     <div id="radio">
                         <input type="radio" id="status" name="temp" value='temp' checked={status === 'temp'} onChange={e => setStatus(e.target.value)} />
