@@ -229,12 +229,12 @@ app.post('/api/singleUser', async (req,res,next)=> {
         //const exec = util.promisify(require('child_process').exec);
 
         //Extact user data from request.body
-        const {firstName, lastName,startDate, title, legalEntity, usrState, supervisor, department, email, computer, gender, tempStatus 
+        const {firstName, lastName,startDate, title, legalEntity, usrState, supervisor, department, email, computer, gender, accountStatus 
         } = req.body;
 
         //Functions Run and TrimCheck
         async function Run(){
-            const {stdout, stderr, err} = await exec(`${singleUserScript} '${usrObj.firstName}'  '${usrObj.lastName}' '${usrObj.startDate}'  '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.tempStatus}'`, {'shell':'powershell.exe'})
+            const {stdout, stderr, err} = await exec(`${singleUserScript} '${usrObj.firstName}'  '${usrObj.lastName}' '${usrObj.startDate}'  '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.accountStatus}'`, {'shell':'powershell.exe'})
             
             return stdout;
             
@@ -244,7 +244,7 @@ app.post('/api/singleUser', async (req,res,next)=> {
             const regex = /[@~`!#$%\^&*+=\\[\]\\';,/{}|\\":<>\?]/g;
 
             for(const prop in userObject){
-                if(prop !== "startDate" && prop !== "gender" && prop !== "computer" && prop !== "usrState" && prop !== "department" && prop !== "tempStatus"){
+                if(prop !== "startDate" && prop !== "gender" && prop !== "computer" && prop !== "usrState" && prop !== "department" && prop !== "accountStatus"){
                     userObject[prop] = userObject[prop].replace(regex, "").trim();
                 }
             }
@@ -263,7 +263,7 @@ app.post('/api/singleUser', async (req,res,next)=> {
             email: email,
             computer: computer,
             gender: gender,
-            tempStatus: tempStatus
+            accountStatus: accountStatus
         };
 
         //response object to send back to the client
@@ -274,7 +274,6 @@ app.post('/api/singleUser', async (req,res,next)=> {
 
         //Remove special characters 
         TrimCheck(usrObj);
-        console.log("yo");
     
         //Call the run to launch powershell and assign the stdout to output
         const output = await Run();

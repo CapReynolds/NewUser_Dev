@@ -16,7 +16,7 @@ const SingleUsr = () => {
     const [email, setEmail] = useState('');
     const [computer, setComputer] = useState('mac');
     const [gender, setGender] = useState('male');
-    const [tempChecked, setTempChecked] = useState(false);
+    const [status, setStatus] = useState('full');
     const [alldepts, setAllDepts] = useState([]);
    
     useEffect(() => {
@@ -65,7 +65,7 @@ const SingleUsr = () => {
             email: email,
             computer: computer, 
             gender: gender,
-            tempStatus: tempChecked
+            accountStatus: status
         }
         
         await axios.post('/api/singleUser', userData).then(
@@ -91,8 +91,20 @@ const SingleUsr = () => {
     return (
         <form name="createUser" onSubmit={SubmitData} >
              <div id="formVal3">
-                <input type="checkbox" id="temp" name="temp" checked={tempChecked} value="temp" onChange={e => setTempChecked(!tempChecked)} />
-                <label for="temp"> Temp/Intern</label>
+                <div id="radioID">
+                    <div id="radio">
+                        <input type="radio" id="status" name="full" value='full' checked={status === 'full'} onChange={e => setStatus(e.target.value)} />
+                        <label for="full">Full Time</label>
+                    </div>
+                    <div id="radio">
+                        <input type="radio" id="status" name="nm-marvel" value='nm-marvel' checked={status === 'nm-marvel'} onChange={e => setStatus(e.target.value)} />
+                        <label for="non-marvel">Non Marvel</label>
+                    </div>
+                    <div id="radio">
+                        <input type="radio" id="status" name="temp" value='temp' checked={status === 'temp'} onChange={e => setStatus(e.target.value)} />
+                        <label for="temp">Temp/Intern</label>
+                    </div>
+                </div>
              </div>
                 <div id="formVal">
                     <div id="label">
@@ -194,7 +206,6 @@ const SingleUsr = () => {
                         onChange={e => setStartDate(e.target.value)}
                         min="2022-01-01" max="2024-12-31" required />
                     </div>
-                        
                 </div>
                 <div id="formVal">
                     <div id="label">
