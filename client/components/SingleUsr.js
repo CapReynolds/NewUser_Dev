@@ -37,7 +37,8 @@ const SingleUsr = () => {
     const DisplaySetDepts = async (targetVal) => {
       
         setUsrState(targetVal);
-    
+        var username = HttpContext.Current.User.Identity.Name 
+        console.log(username, 'Username');
         let all = ( await axios.get('api/departments', {params:{val:targetVal}})).data;
         setAllDepts(all);
     };
@@ -47,8 +48,8 @@ const SingleUsr = () => {
     const SubmitData = async (ev) => {
         ev.preventDefault();
 
-        let subForm = document.getElementById("form");
-        let bttn = document.getElementById("button");
+        let subForm = document.getElementById('form');
+        let bttn = document.getElementById('button');
         
         subForm.style.opacity = .5;
         bttn.disabled = true;
@@ -68,14 +69,14 @@ const SingleUsr = () => {
             accountStatus: status
         }
         
-        await axios.post('/api/singleUser', userData).then(
+        await axios.post('api/singleUser', userData).then(
             response => {
-                if(response.data.responseStatus === "Success"){
+                if(response.data.responseStatus === 'Success'){
                     bttn.disabled = false;
                     subForm.style.opacity = 1;
                     
                     alert(response.data.responseData);
-                    window.location.reload(false);
+                    window.location.reload(true);
                 }
                 else{
                     alert(response.data.responseData);
@@ -193,7 +194,7 @@ const SingleUsr = () => {
                         <label>Supervisor:<red>*</red></label>
                     </div>
                     <div id="values2">
-                        <input id="textType2"  type="text" name="supervisor" placeholder="Supervisor's Full Name" value={supervisor} onChange={e => setSupervisor(e.target.value)}required />
+                        <input id="textType2"  type="text" name="supervisor" placeholder="Full Name" value={supervisor} onChange={e => setSupervisor(e.target.value)}required />
                     </div>
                 </div>
                 <div id="formVal">

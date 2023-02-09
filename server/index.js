@@ -2,34 +2,60 @@
 const express = require("express");
 const app = express();
 const { urlencoded } = require('express');
-const config = require("../config");
 
-const {index: { port, local, consoleMsg,multiUserScript, singleUserScript}} = config;
+
+const config = require("./config");
+
+const {index: { port, local, consoleMsg, MultiUserScript, SingleUserScript}} = config;
+
 app.use(express.json());
 app.use(urlencoded({ extended: false }));
 
 const path = require("path");
-const { start } = require("repl");
-const fs = require('fs');
+
 
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-const PORT = process.env.PORT || port;
+//for iisserver
+const http = require('http');
 
-app.use(express.static(path.join(__dirname, "../public")));
+let loggedInUser = '';
+let loggedInPass = '';
+let loggedAuthType = '';
+let loggedOnUser = '';
+
 
 //for reading in a file
 const fileUpload = require("express-fileupload");
 app.use(fileUpload());
+
+const PORT = process.env.PORT || port;
+
+let httpServer = http.createServer(app);
+httpServer.listen(8080);
+
+app.use(express.static(path.join(__dirname, "../build")));
+
+//var username = req.headers['x-iisnode-auth_user'];
+
+/*
+http.createServer(function (req, res) {
+    var username = req.headers['x-iisnode-auth_user'];
+    var authenticationType = req.headers['x-iisnode-auth_type'];
+    // ...
+	
+	//loggedInUser = username;
+}).listen(process.env.PORT);  */
 
 app.get('/api/departments', async(req,res,next)=> {
     try{
 
         const {val} = req.query;
         let depts = '';
+		
+		//username = HttpContext.Current.User.Identity.Name;
 
-        
         const allDepartmentsLA = [
             {
                 name:"Administrators",
@@ -70,6 +96,12 @@ app.get('/api/departments', async(req,res,next)=> {
                     {name: "Production", value: "Digital Media-Production"},
                     {name: "Sales and Distribution", value: "Digital Media-Sales and Distribution"},
                     {name: "Social", value: "Digital Media-Social"}
+                    ]
+            },
+            {
+                name:"Disney",
+                values: [
+                    {name: "Disney", value: "Disney"}
                     ]
             },
             {
@@ -163,6 +195,12 @@ app.get('/api/departments', async(req,res,next)=> {
                     ]
             },
             {
+                name:"Disney",
+                values: [
+                    {name: "Disney", value: "Disney"}
+                    ]
+            },
+            {
                 name:"Interactive",
                 values: [
                     {name: "Game Development", value: "Interactive-Game Development"},
@@ -234,10 +272,15 @@ app.post('/api/singleUser', async (req,res,next)=> {
 
         //Functions Run and TrimCheck
         async function Run(){
-            const {stdout, stderr, err} = await exec(`${singleUserScript} '${usrObj.firstName}'  '${usrObj.lastName}' '${usrObj.startDate}'  '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.accountStatus}'`, {'shell':'powershell.exe'})
+          
+		const {stdout, stderr, err} = await exec(`${SingleUserScript} '${usrObj.firstName}'  '${usrObj.lastName}' '${usrObj.startDate}'  '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.accountStatus}' '${loggedInUser}' '${loggedInPass}' '${loggedAuthType}' '${loggedOnUser}'`, {'shell':'powershell.exe'})
             
-            return stdout;
-            
+            if(stdout)
+                return stdout;
+            else if(stderr)
+                return stderr;
+            else
+                return err;
         }
 
         function TrimCheck(userObject){
@@ -268,7 +311,7 @@ app.post('/api/singleUser', async (req,res,next)=> {
 
         //response object to send back to the client
         const resObj = {
-            responseStatus: "success",
+            responseStatus: "Success",
             responseData: 'All good'
         }
 
@@ -276,7 +319,9 @@ app.post('/api/singleUser', async (req,res,next)=> {
         TrimCheck(usrObj);
     
         //Call the run to launch powershell and assign the stdout to output
+        
         const output = await Run();
+        resObj.responseData = output;
 
         //Extract the first word from output, either will be Successs or Error, along with the message assign to resobj
         let outputStatus = output.split(' ').splice(0,1).toString();
@@ -284,10 +329,11 @@ app.post('/api/singleUser', async (req,res,next)=> {
         resObj.responseStatus = outputStatus;
 
         resObj.responseData = outputMsg;
+        
         res.json(resObj);
     }
     catch(ex){
-        console.log("error in the server");
+        //console.log("error in the server");
         console.log(ex);
         next(ex);
    }
@@ -304,8 +350,8 @@ app.post('/api/multiUser', async (req,res,next)=> {
             }
 
             //console.log(fileInfo);
-            const {stdout, stderr, err} = await exec(`${multiUserScript} '${fileInfo}'`, {'shell':'powershell.exe'})
-            console.log(stdout);
+            const {stdout, stderr, err} = await exec(`${MultiUserScript} '${fileInfo}'`, {'shell':'powershell.exe'})
+           
             return stdout;
             
         }
@@ -346,10 +392,23 @@ app.post('/api/multiUser', async (req,res,next)=> {
    }
 });
 
-// Send the app
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
+app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../build/index.html"));
+	var username = req.headers['x-iisnode-auth_user'];
+	var pass = req.headers['x-iisnode-AUTH_PASSWORD'];
+	var authType = req.headers['x-iisnode-auth_type'];
+	var logOnUser = req.headers['x-iisnode-logon_user'];
+	loggedInUser = username;
+	loggedInPass = pass;
+	loggedAuthType = authType;
+	loggedOnUser = logOnUser;
 });
+
+// Send the app
+// app.get("/", (req, res) => {
+//     res.sendFile(path.join(__dirname, "../public/index.html"));
+//     //res.sendFile(path.join(__dirname, "../build/index.html"));
+// });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -362,6 +421,7 @@ app.listen(PORT, () =>
     ${consoleMsg + PORT}
         ${local + PORT}
 `),
+
 );
 
 module.exports = { app, PORT };

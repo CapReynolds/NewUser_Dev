@@ -1,6 +1,7 @@
 import React from "react";
 import './../../public/assets/styles.css';
 import imageFile from "./../../public/assets/Marvel-Comics.png";
+import imageFile2 from "./../../public/assets/it_notifications.png";
 
 const Header = () => {
     return (
