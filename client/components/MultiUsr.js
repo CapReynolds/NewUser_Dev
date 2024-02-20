@@ -55,7 +55,7 @@ const MultiUsr = () => {
     }
 
     return (
-        <form name="createUser" onSubmit={SubmitData} >
+        <form name="createUser" onSubmit={SubmitData} autoComplete="off">
             <h3>
                 Please upload a CSV file
             </h3>

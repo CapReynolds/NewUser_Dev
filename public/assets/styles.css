@@ -24,7 +24,7 @@ div #form {
     font-size: 16px;
 }
 
-#container {
+.container {
   display: flex;
   flex-direction: row;
   margin-left: auto;
@@ -35,14 +35,14 @@ div #form {
   text-align: center;
 }
 
-#formVal {
+.formVal {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 15px;
 }
 
-#formVal2 {
+.formVal2 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -50,16 +50,15 @@ div #form {
   height: 100%;
 }
 
-#formVal3 {
+.formVal3 {
   display: flex;
   flex-direction: row;
   justify-content: right;
   padding: 15px;
   margin: 0px;
-  margin-right: 50px;
 }
 
-#formVal4 {
+.formVal4 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -67,7 +66,7 @@ div #form {
   /* margin: 5px; */
 }
 
-#label2 {
+.label2 {
   width: 15%;
   margin-left: 35px; 
   font-weight: bold;
@@ -75,11 +74,22 @@ div #form {
   /* padding: 5px; */
 } 
 
-#radioID{
+.radioID{
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 85%;
+  margin-right: 50px;
+  margin-left: 50px;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 90%;
   border: 1px #ccc;
   border-style: solid;
   margin-right: 50px;
@@ -87,21 +97,21 @@ div #form {
   padding: 5px;
 }
 
-#label {
+.label {
   width: 20%;
   margin-left: 35px; 
   text-align: left;
   font-weight: bold;
 } 
 
-#values {
+.values {
   display: flex;
   flex-direction: row;
   width: 80%;
   /* justify-content: right; */
 }
 
-#values2 {
+.values2 {
   display: flex;
   flex-direction: row;
   justify-content: left;
@@ -116,7 +126,7 @@ div #form {
   line-height: 25px;
 } 
 
-#textType2 {
+.textType2 {
   display: flex;
   justify-content: center;
   width: 80%;
@@ -125,7 +135,7 @@ div #form {
   line-height: 25px;
 } 
 
-#radio {
+.radio {
   width: 50%;
   /* margin-left: 10px; */
   margin-left: 10px;
@@ -134,6 +144,11 @@ div #form {
 /* input .radio {
   width: 25%;
 }  */
+.select_ {
+  width: 100%;
+  /* margin-left: 10px; */
+  margin-left: 10px;
+} 
 
 select {
   width: 100%;
@@ -141,6 +156,16 @@ select {
   margin-left: 10px;
   margin-right: 30px;
 } 
+
+.selectID{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 85%;
+  margin-right: 50px;
+  margin-left: 50px;
+  padding: 5px;
+}
 
 
   #logo {

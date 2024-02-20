@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build & node server",
-    "build": "webpack --mode=production",
-    "start:dev": "npm run start-server & npm run build-watch",
-    "build-watch": "webpack -w --mode=development",
     "start-server": "nodemon server --ignore public",
+    "start:dev": "npm run start-server & npm run build-watch",
+    "build": "webpack --mode=production",
+    "build-watch": "webpack -w --mode=development",
     "start:bld": "npm run build & npm run start:dev",
     "build:prod": "webpack --config webpack.prod.js",
     "build:dev": "webpack --config webpack.dev.js"
@@ -22,7 +22,8 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.4.0",
     "react-router": "^6.4.2",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "react-select": "^5.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
