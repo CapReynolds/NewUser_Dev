@@ -65,7 +65,7 @@ const MultiUsr = () => {
                 <div id="formVal">
                     <input type="file" id="fileInput" name="file" onChange={handleFileChange} accept=".csv" />
                 </div>
-                <div>
+                <div className="submitButtonDiv">
                     <input id="button" type="submit" value="Submit" />  
                 </div>
             </form>

@@ -318,7 +318,7 @@ const SingleUsr = () => {
                         </div>
                     </fieldset>
                 </div>
-                <div class="formVal4">
+                <div className="formVal4">
                     <fieldset>
                         <legend> Okta Groups </legend>
                         <div class="selectID">

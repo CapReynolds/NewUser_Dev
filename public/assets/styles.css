@@ -195,6 +195,10 @@ select {
     font-size: 16px;
   }
 
+  .submitButtonDiv {
+    padding: 10px;
+  }
+
   .formButtons {
     display: flex;
     flex-direction: row;
