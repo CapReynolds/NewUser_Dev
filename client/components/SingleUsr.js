@@ -18,6 +18,7 @@ const SingleUsr = () => {
     const [gender, setGender] = useState('male');
     const [status, setStatus] = useState('full');
     const [alldepts, setAllDepts] = useState([]);
+    const [pernr, setPernr] = useState('');
    
     useEffect(() => {
         // declare the data fetching function
@@ -66,7 +67,8 @@ const SingleUsr = () => {
             email: email,
             computer: computer, 
             gender: gender,
-            accountStatus: status
+            accountStatus: status,
+            pernr: pernr
         }
         
         await axios.post('api/singleUser', userData).then(
@@ -214,6 +216,14 @@ const SingleUsr = () => {
                     </div>
                     <div id="values2">
                         <input id="textType2" type="text" name="email" placeholder="Personal Email Address" value={email} onChange={e => setEmail(e.target.value)} />
+                    </div>
+                </div>
+                <div id="formVal">
+                    <div id="label">
+                        <label>PERNR:</label>
+                    </div>
+                    <div id="values2">
+                        <input id="textType2" type="text" name="pernr" placeholder="PERNR" value={pernr} onChange={e => setPernr(e.target.value)} />
                     </div>
                 </div>
                 <div id="formVal4">

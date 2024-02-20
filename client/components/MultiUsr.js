@@ -59,6 +59,9 @@ const MultiUsr = () => {
             <h3>
                 Please upload a CSV file
             </h3>
+            <h5>
+                Click <a href='/api/download'> Here </a>  to download a template file
+            </h5>
                 <div id="formVal">
                     <input type="file" id="fileInput" name="file" onChange={handleFileChange} accept=".csv" />
                 </div>

@@ -6,7 +6,7 @@ const { urlencoded } = require('express');
 
 const config = require("./config");
 
-const {index: { port, local, consoleMsg, MultiUserScript, SingleUserScript}} = config;
+const {index: { port, local, consoleMsg, MultiUserScript, SingleUserScript, ExcelPath}} = config;
 
 app.use(express.json());
 app.use(urlencoded({ extended: false }));
@@ -267,13 +267,13 @@ app.post('/api/singleUser', async (req,res,next)=> {
         //const exec = util.promisify(require('child_process').exec);
 
         //Extact user data from request.body
-        const {firstName, lastName,startDate, title, legalEntity, usrState, supervisor, department, email, computer, gender, accountStatus 
+        const {firstName, lastName,startDate, title, legalEntity, usrState, supervisor, department, email, computer, gender, pernr, accountStatus 
         } = req.body;
 
         //Functions Run and TrimCheck
         async function Run(){
           
-		const {stdout, stderr, err} = await exec(`${SingleUserScript} '${usrObj.firstName}'  '${usrObj.lastName}' '${usrObj.startDate}'  '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.accountStatus}' '${loggedInUser}' '${loggedInPass}' '${loggedAuthType}' '${loggedOnUser}'`, {'shell':'powershell.exe'})
+		const {stdout, stderr, err} = await exec(`${SingleUserScript} '${usrObj.firstName}'  '${usrObj.lastName}' '${usrObj.startDate}'  '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.pernr}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.accountStatus}' '${loggedInUser}' '${loggedInPass}' '${loggedAuthType}' '${loggedOnUser}'`, {'shell':'powershell.exe'})
             
             if(stdout)
                 return stdout;
@@ -306,6 +306,7 @@ app.post('/api/singleUser', async (req,res,next)=> {
             email: email,
             computer: computer,
             gender: gender,
+            pernr: pernr,
             accountStatus: accountStatus
         };
 
@@ -390,6 +391,23 @@ app.post('/api/multiUser', async (req,res,next)=> {
         console.log(ex);
         next(ex);
    }
+});
+
+app.get('/api/download', async(req,res,next)=> {
+    try{
+        //let basePath = path.join(__dirname, "../build");
+        //let excelFile = `${basePath}/Template/import_template_new.xlsx`;
+        res.download(ExcelPath, function (error) {
+            console.log("Error: ", error);
+        })
+        //res.download(path.join(__dirname, "../build/Template/import_template_new.xlsx"))
+    }
+    catch(ex){
+        console.log("error downloading file");
+        res.send('An error occured wdownloading the file');
+        console.log(ex);
+        next(ex);
+    }
 });
 
 app.get("/*", (req, res) => {
