@@ -6,7 +6,7 @@ const { urlencoded } = require('express');
 
 const config = require("./config");
 
-const {index: { port, local, consoleMsg, MultiUserScript, SingleUserScript, ExcelPath}} = config;
+const {index: { port, local, consoleMsg, MultiUserScript, SingleUserScript, AllADUsersScript, LockoutScript, UnlockScript, ExcelPath, SingleDisableScript, MultiisableScript, AccountInfoScript}} = config;
 
 app.use(express.json());
 app.use(urlencoded({ extended: false }));
@@ -32,14 +32,24 @@ app.use(fileUpload());
 
 const PORT = process.env.PORT || port;
 
+//let httpServer = http.createServer(app);
+//httpServer.listen(8080);
+
+
 let httpServer = http.createServer(app);
 httpServer.listen(8080);
 
-//for production
-app.use(express.static(path.join(__dirname, "../build")));
+httpServer.on('error', function (err){
+    httpServer.listen(5000);
+    console.log(err);
+})
+
+
+//for production -----------------------------------
+//app.use(express.static(path.join(__dirname, "../build")));
 
 //for development
-//app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 //var username = req.headers['x-iisnode-auth_user'];
 
@@ -276,6 +286,42 @@ app.get('/api/departments', async(req,res,next)=> {
    }
 });
 
+app.get('/api/managerLookup', async(req,res,next)=> {
+    try{
+
+        const {stdout, stderr, err} = await exec(`${AllADUsersScript} `, {'shell':'powershell.exe'})
+          
+        if(stdout){
+            // use output to make an array;
+        } else if(stderr)
+            console.log(stderr, 'stderr');
+        else{
+            console.log(err, 'err');
+        }
+        const allADUsers = [];
+        let tmp = stdout.split('\r\n');
+        let str = '';
+     
+        //filter out Admin accounts
+        tmp.forEach(el=>{
+            str = el.trim();
+            if(!(str.includes('1')) && !(str.includes('Admin')) && !(str.includes('AD-')))
+                allADUsers.push(str);
+        });
+
+        //remove the first three lines for the headers
+        for(let i=0; i <=2; i++){
+            allADUsers.shift();
+        }
+        //console.log(allADUsers);
+        //send that array
+        res.send(allADUsers);
+    }
+    catch(ex){
+        next(ex);
+   }
+});
+
 app.get('/api/oktaGroups', async(req,res,next)=> {
     try{
         const okta_groups = [
@@ -323,6 +369,244 @@ app.get('/api/VPNGroups', async(req,res,next)=> {
    }
 });
 
+app.get('/api/checkUserStatus', async(req,res,next)=> {
+    try{
+
+        const {val} = req.query;
+		
+        const {stdout, stderr, err} = await exec(`${LockoutScript} '${val}' `, {'shell':'powershell.exe'})
+        if(stdout){
+            
+        } else if(stderr)
+            console.log(stderr, 'stderr check user status');
+        else{
+            console.log(err, 'err check user status');
+        }
+
+        let user = stdout;
+
+        let tmp = stdout.split('\r\n');
+        //let str = '';
+		//console.log(user, 'check user data');
+        res.send(user);
+    }
+    catch(ex){
+        next(ex);
+   }
+});
+
+app.get('/api/getAccountName', async(req,res,next)=> {
+    try{
+
+        const {val} = req.query;
+		
+        const {stdout, stderr, err} = await exec(`${AccountInfoScript} '${val}' `, {'shell':'powershell.exe'})
+        if(stdout){
+            
+        } else if(stderr)
+            console.log(stderr, 'stderr getting user info');
+        else{
+            console.log(err, 'err getting user info');
+        }
+
+        let user = stdout;
+
+        let tmp = stdout.split('\r\n');
+        //let str = '';
+		//console.log(user, 'check user data');
+       
+        res.send(user);
+    }
+    catch(ex){
+        next(ex);
+   }
+});
+
+
+app.post('/api/unlock_account', async(req,res,next)=>{
+    try{
+        
+        const {accountName} = req.body;
+
+        const resObj = {
+            responseStatus: "Success",
+            responseData: 'User has been unlocked'
+        }
+
+        const Run = async(samAccount) =>{
+            const {stdout, stderr, err} = await exec(`${UnlockScript} '${samAccount}'`, {'shell':'powershell.exe'})
+            if(stdout){
+                console.log(stdout, 'stdout');
+            }
+            else if(stderr){
+                resObj.responseStatus =  "Error";
+                resObj.responseData = 'Not unlocked';
+                console.log(stderr, 'stderr');
+            }
+            else{
+                //console.log(err, 'err');
+            }
+        }
+
+        const output = await Run(accountName);
+
+        res.send(resObj);
+    }
+    catch(ex){
+        const resObj2 = {
+            responseStatus: "Error",
+            responseData: 'An error occurred unlocking this account'
+        }
+        res.send(resObj2);
+        console.log(ex, ' eror unlocking account');
+        next(ex);
+    }
+});
+
+app.post('/api/DisableUser', async(req,res,next)=>{
+    try{
+        //console.log(req.body);
+        const {username} = req.body;
+
+        const resObj = {
+            responseStatus: "Success",
+            responseData: 'User has been disabled'
+        }
+
+        const Run = async(username) =>{
+            const {stdout, stderr, err} = await exec(`${SingleDisableScript} '${username}'`, {'shell':'powershell.exe'})
+            if(stdout){
+                //console.log(stdout, 'stdout');
+            }
+            else if(stderr){
+                resObj.responseStatus =  "Error";
+                resObj.responseData = 'Not disabled';
+                console.log(stderr, 'stderr');
+            }
+            else{
+                //console.log(err, 'err');
+            }
+        }
+        //console.log('going to call the script to remove ', username);
+        const output = await Run(username);
+
+        res.send(resObj);
+    }
+    catch(ex){
+        const resObj2 = {
+            responseStatus: "Error",
+            responseData: 'An error occurred disabling this account'
+        }
+        res.send(resObj2);
+        console.log(ex, ' eror disabling account');
+        next(ex);
+    }
+});
+
+app.post('/api/disable_account', async(req,res,next)=>{
+    try{
+        
+        const {accountName} = req.body;
+
+        const resObj = {
+            responseStatus: "Success",
+            responseData: 'User has been disabled'
+        }
+
+        const Run = async(samAccount) =>{
+            const {stdout, stderr, err} = await exec(`${DisableScript} '${samAccount}'`, {'shell':'powershell.exe'})
+            if(stdout){
+                console.log(stdout, 'stdout');
+            }
+            else if(stderr){
+                resObj.responseStatus =  "Error";
+                resObj.responseData = 'Not Disabled';
+                console.log(stderr, 'stderr');
+            }
+            else{
+                //console.log(err, 'err');
+            }
+        }
+
+        const output = await Run(accountName);
+
+        res.send(resObj);
+    }
+    catch(ex){
+        const resObj2 = {
+            responseStatus: "Error",
+            responseData: 'An error occurred disabling this account'
+        }
+        res.send(resObj2);
+        console.log(ex, ' eror disabling account');
+        next(ex);
+    }
+});
+
+app.post('/api/multi_disable_account', async(req,res,next)=>{
+    try{
+        
+         const GetAccounts = async(file) => {
+            let data = JSON.stringify(file.data.toString('utf8'));
+            
+            //console.log(data, 'processed data');
+            const accounts = [];
+
+            let arrData = data.split('\\r\\n');
+            //console.log(arrData, 'processed data');
+            
+            //go through the data to push the individual elements to the accounts array
+            for(let i = 1; i < arrData.length; i++){
+                //start at line 1 to skip headers
+                if(arrData[i].length >1){
+                    accounts.push(arrData[i].split(','));
+                }
+            }
+            return accounts; 
+        };
+
+        const {file} = req.files;
+        //file is the raw data
+        
+        const allaccounts =  await GetAccounts(file);
+        //console.log(allaccounts, 'all accounts');
+
+        const resObj = {
+            responseStatus: "Success",
+            responseData: 'User has been disabled'
+        }
+      
+
+        const Run = async(allAccounts) =>{
+             let fileInfo = allAccounts.toString();
+            // let count = allAccounts.length;
+            // for(row of allAccounts){
+
+            // }
+            const {stdout, stderr, err} = await exec(`${MultiisableScript} '${fileInfo}'`, {'shell':'powershell.exe'});
+            
+            if(stdout) 
+                console.log(stdout, 'stdout');
+            
+
+            return stdout;
+        }
+
+        const output = await Run(allaccounts);
+
+        res.send(resObj);
+    }
+    catch(ex){
+        const resObj2 = {
+            responseStatus: "Error",
+            responseData: 'An error occurred disabling this account'
+        }
+        res.send(resObj2);
+        console.log(ex, ' eror disabling account');
+        next(ex);
+    }
+});
+
 app.post('/api/singleUser', async (req,res,next)=> {
     try{
         //util and exec for calling the powershell application
@@ -333,17 +617,17 @@ app.post('/api/singleUser', async (req,res,next)=> {
         const {firstName, lastName, startDate, title, legalEntity, usrState, supervisor, department, email, computer, gender, pernr, accountStatus, oktaUserGroups, vpnUserGroups
         } = req.body;
 
-        // let oktaGroups = [];
-        // //oktaGroups, vpnGroups
-        // oktaUserGroups.forEach((group) => {
-        //     oktaGroups.push(group.id);
-        // });
+        let oktaGroups = [];
+        //oktaGroups, vpnGroups
+        oktaUserGroups.forEach((group) => {
+            oktaGroups.push(group.id);
+        });
 
-        // let vpnGroups = [];
-        // //oktaGroups, vpnGroups
-        // vpnUserGroups.forEach((group) => {
-        //     vpnGroups.push(group.id);
-        // });
+        let vpnGroups = [];
+        //oktaGroups, vpnGroups
+        vpnUserGroups.forEach((group) => {
+            vpnGroups.push(group.id);
+        });
 
         //Functions Run and TrimCheck
         async function Run(){
@@ -351,6 +635,7 @@ app.post('/api/singleUser', async (req,res,next)=> {
 		    //const {stdout, stderr, err} = await exec(`${SingleUserScript} '${usrObj.firstName}' '${usrObj.lastName}' '${usrObj.startDate}' '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.accountStatus}' '${usrObj.pernr}' '${loggedInUser}' '${loggedInPass}' '${loggedAuthType}' '${loggedOnUser}'`, {'shell':'powershell.exe'})
             
             let combinedData = usrObj.pernr +":"+ usrObj.startDate;
+            //let combinedGroups = oktaUserGroups + ":" + vpnUserGroups;
 
             let string_vpn = "";
             let string_okta = "";
@@ -376,7 +661,6 @@ app.post('/api/singleUser', async (req,res,next)=> {
                 string_vpn = test2.toString();
             }
 
-           
             const {stdout, stderr, err} = await exec(`${SingleUserScript} '${usrObj.firstName}' '${usrObj.lastName}' '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.accountStatus}' '${combinedData}' '${string_vpn}' '${string_okta}' '${loggedInUser}' '${loggedInPass}' '${loggedAuthType}' '${loggedOnUser}'`, {'shell':'powershell.exe'})
             
             if(stdout)
@@ -391,7 +675,7 @@ app.post('/api/singleUser', async (req,res,next)=> {
             const regex = /[@~`!#$%\^&*+=\\[\]\\';,/{}|\\":<>\?]/g;
 
             for(const prop in userObject){
-                if(prop !== "oktaGroups" && prop !== "vpnGroups" && prop !== "startDate" && prop !== "gender" && prop !== "computer" && prop !== "usrState" && prop !== "department" && prop !== "accountStatus" && prop !== "email"){
+                if(prop !== "oktaGroups" && prop !== "vpnGroups" && prop !== "startDate" && prop !== "gender" && prop !== "computer" && prop !== "usrState" && prop !== "department" && prop !== "accountStatus" && prop !== "supervisor"){
                     userObject[prop] = userObject[prop].replace(regex, "").trim();
                 }
             }
@@ -453,10 +737,16 @@ app.post('/api/multiUser', async (req,res,next)=> {
     try{
 
         async function Run(data){
-            let fileInfo = '';
-            for(let row of data){
+            let fileInfo = "";
+            let count = data.length;
+            for(row of data){
+                //console.log(row);
                 //row Scott,Summers,IT Person,Marvel Entertainment,California,Publishing-Game Development,Alcott Vernon,12/24/2022,mac,male,test@yahoo.com,012345,NY-VPN Access,APP-VPN-DEV-OT
-                fileInfo += row.toString() + "\n"
+                
+                if(!--count)
+                    fileInfo += row.toString();
+                else
+                    fileInfo += row.toString() + "%";
             }
 
             //console.log(fileInfo);
@@ -520,23 +810,23 @@ app.get('/api/download', async(req,res,next)=> {
 });
 
 
-// For development
-// app.get("/", (req, res) => {
-//     res.sendFile(path.join(__dirname, "../public/index.html"));
-// });
+// For development --------------------------------------------
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+});
 
 //for production Environment and iis Server
-app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../build/index.html"));
-	var username = req.headers['x-iisnode-auth_user'];
-	var pass = req.headers['x-iisnode-AUTH_PASSWORD'];
-	var authType = req.headers['x-iisnode-auth_type'];
-	var logOnUser = req.headers['x-iisnode-logon_user'];
-	loggedInUser = username;
-	loggedInPass = pass;
-	loggedAuthType = authType;
-	loggedOnUser = logOnUser;
-});
+// app.get("/*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "../build/index.html"));
+// 	var username = req.headers['x-iisnode-auth_user'];
+// 	var pass = req.headers['x-iisnode-AUTH_PASSWORD'];
+// 	var authType = req.headers['x-iisnode-auth_type'];
+// 	var logOnUser = req.headers['x-iisnode-logon_user'];
+// 	loggedInUser = username;
+// 	loggedInPass = pass;
+// 	loggedAuthType = authType;
+// 	loggedOnUser = logOnUser;
+// });
 
 // Error handling middleware
 app.use((err, req, res, next) => {

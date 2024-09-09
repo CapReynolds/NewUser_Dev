@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import './../../public/assets/styles.css';
 import Form from "./Form";
-
 import SingleUsr from "./SingleUsr";
 import MultiUsr from "./MultiUsr";
-import SingleDisable from "./SingleDisable";
-import MultiDisable from "./MultiDisable";
 
-const TabbedContent = ({passedComponenet1, passedComponenet2}) => {
+const TabbedContent_old = ({allEmployees}) => {
 
     const [tabView, setTabView] = useState('single');
     const [visible, setVisible] = useState(false);
@@ -28,21 +25,21 @@ const TabbedContent = ({passedComponenet1, passedComponenet2}) => {
         switch(tabView){
             case 'single':
                 setVisible(true);
-                setFormView(passedComponenet1)
+                setFormView(<SingleUsr allEmployees={allEmployees}/>)
                 break;
             case 'multi':
                 setVisible(true);
-                setFormView(passedComponenet2)
+                setFormView(<MultiUsr />)
                 break;
             default:
-                setFormView(passedComponenet1)
+                setFormView(<SingleUsr allEmployees={allEmployees}/>)
         }
     }
 
     return (
         <div class="content">
             <div class="tab">
-                <button class="tablinks" onClick={ e => OpenView(e, 'single')}>Single</button>
+                <button class="tablinks" onClick={ e => OpenView(e, 'single')}>Single User</button>
                 <button class="tablinks" onClick={ e => OpenView(e, 'multi')}>Multiple</button>
             </div>
             <div class="tabbedcontent">
@@ -52,4 +49,4 @@ const TabbedContent = ({passedComponenet1, passedComponenet2}) => {
     )
 }
 
-export default TabbedContent;
+export default TabbedContent_old;

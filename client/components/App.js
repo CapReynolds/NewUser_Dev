@@ -6,7 +6,7 @@ import Header from "./Header";
 import Main from "./Main";
 
 const App = () =>  (
-    <div>
+    <div id="App">
         <Header />
         <Main />
     </div>

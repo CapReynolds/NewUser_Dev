@@ -1,9 +1,10 @@
-import axios from "axios";
+import TabbedContent from "./TabbedContent_old";
 import React, { useState } from "react";
-import './../../public/assets/styles.css';
-import Form from "./Form";
+import imageFile from "./../../public/assets/short-paragraph.png";
+//import 'semantic-ui-css/semantic.min.css';
+import axios from 'axios';
 
-const MultiUsr = () => {
+const MultiDisable = () => {
 
     const [file, setFile] = useState('');
 
@@ -11,8 +12,8 @@ const MultiUsr = () => {
         //console.log("validating")
         let flag = true;
         if(!fileValue.includes('.csv')){
-            alert("Please select a CSV file");
-            //window.location.reload(true);
+            //alert("Please select a CSV file");
+            window.location.reload(true);
             flag = false;
         }
         //console.log(fileValue);
@@ -24,7 +25,7 @@ const MultiUsr = () => {
             setFile(ev.target.files[0]);
         }
     }
-    
+
     const SubmitData = async (ev) => {
         ev.preventDefault();
 
@@ -32,10 +33,10 @@ const MultiUsr = () => {
         const formData = new FormData();
         formData.append("file", file);
 
-        window.location.reload(false);
+        //window.location.reload(false);
 
        if(file != ''){
-            await axios.post('/api/multiUser', formData, {
+            await axios.post('/api/multi_disable_account', formData, {
                 headers: {
                     "Content-type": "multipart/form-data"
                 }
@@ -43,7 +44,7 @@ const MultiUsr = () => {
                 alert("CSV Uploaded"),
                 response => {
                     //console.log(response.data);
-                    
+                    //window.location.reload(true);
                 }).catch((ex)=>{
                     console.log(ex);
             }); 
@@ -52,22 +53,19 @@ const MultiUsr = () => {
          alert("Please Upload a CSV");
          
         }
-        window.location.reload(false);
+        //window.location.reload(false);
     }
 
     return (
-        <form name="createUser" onSubmit={SubmitData} autoComplete="off">
+        <form name="deleteUser" onSubmit={SubmitData} autoComplete="off">
             <div class="formVal5">
                 <fieldset >
                     <legend>
-                        Please upload a CSV file.
+                        Please upload a CSV with users to disable.
                     </legend>
                     <div class="formVal6">
-                        <h5>
-                            Click <a href='/api/download'> Here </a>  to download a template file
-                        </h5>
                         <div id="formVal0">
-                            <input type="file" id="fileInput" name="file" onChange={handleFileChange} accept=".csv" />
+                            <input link type="file" id="fileInput" name="file" onChange={handleFileChange} accept=".csv" />
                         </div>
                     </div>
                 </fieldset>
@@ -79,4 +77,4 @@ const MultiUsr = () => {
     )
 }
 
-export default MultiUsr;
+export default MultiDisable;
