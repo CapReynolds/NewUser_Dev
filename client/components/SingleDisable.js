@@ -1,9 +1,10 @@
 import TabbedContent from "./TabbedContent_old";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import imageFile from "./../../public/assets/short-paragraph.png";
 //import 'semantic-ui-css/semantic.min.css';
 import {Confirm, Dimmer, Loader, Image, Segment} from "semantic-ui-react";
 import axios  from "axios";
+import { DarkModeContext } from "./DarkModeContext";
 
 const SingleDisable = () => {
 
@@ -12,6 +13,7 @@ const SingleDisable = () => {
     const [isEnabled, setIsEnabled] = useState(true);
     const [confirmWindow, setConfirmWindow] = useState({open: false});
     const [isLoading, setIsLoading] = useState(false);
+    const {darkMode, setDarkMode} = useContext(DarkModeContext);
 
     const handleChange = (accountName) => {
         setUsername(accountName);

@@ -1,9 +1,22 @@
+.icons{
+  box-shadow: 0 0 0 .1em #525243e3  inset !important;
+}
 
 .center {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+}
+
+.bodyLight {
+  background-color: white;
+  color: black;
+}
+
+.bodyDark {
+  background-color: black;
+  color: white;
 }
 
 red{
@@ -15,13 +28,21 @@ div #form {
     margin-left: auto;
     margin-right: auto;
     border-radius: 5px;
-    background-color: #f2f2f2;
     width: 50%;
     height: 30%;
     padding: 10px;
     text-align: center;
     min-width: 574px;
     font-size: 16px;
+}
+
+.formDark {
+  background-color: #212120;
+  color:white;
+}
+
+.formLight {
+  background-color: #1c1b1b59;
 }
 
 .menu {
@@ -58,11 +79,24 @@ div #form {
 
 } 
 
+
 .nav {
   display: flex;
-  justify-content:flex-end;
+  justify-content: space-between;
   margin:3px;
   padding:0px;
+
+} 
+
+.nav1 {
+  display: flex;
+  justify-content:flex-start;
+
+} 
+
+.nav2 {
+  display: flex;
+  justify-content:flex-end;
 
 } 
 
@@ -72,9 +106,31 @@ div #form {
   margin-left: auto;
   margin-right: auto;
   border-radius: 5px;
-  background-color: #f2f2f2;
+  /* background-color: #87888fcc; */
   width: 50%;
   text-align: center;
+}
+
+.containerDark {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  background-color: #212120;
+  width: 50%;
+  text-align: center;
+}
+
+.selectOptions {
+  color: black;
+  background-color: white;
+}
+
+.selectOptionsDark {
+  color: white;
+  /* background-color: #424242 */;
+  background-color: blue;
 }
 
 .values {
@@ -148,6 +204,15 @@ div #form {
   z-index: 9;
 }
 
+.suggestions_light {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.suggestions_dark {
+  background-color: #424242;
+  color: #f1f1f1;
+}
 
 CardDescription {
   font-weight: bold;
@@ -169,6 +234,17 @@ CardDescription {
 
 #suggestion_list:hover {
   background-color: #ccc;
+}
+
+#suggestion_list_dark {
+  display: flex;
+  flex-direction: row;
+  /* margin-left: 5px; */
+  padding: 5px 5px; 
+}
+
+#suggestion_list_dark:hover {
+  background-color: black;
 }
 
 .formVal0 {
@@ -313,7 +389,48 @@ fieldset {
   margin-left: 15px;
   margin-right: 30px;
   line-height: 25px;
+  background-color: white;
+  color: black;
 } 
+
+.textType2Dark {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin-left: 15px;
+  margin-right: 30px;
+  line-height: 25px;
+  background-color: #424242;
+  color: white;
+} 
+
+.textType2Dark::placeholder {
+  color: white;
+}
+
+/* .testSelect[class*="-container"] {
+  color: white;
+  background-color: #424242 
+} */
+/* .css-13cymwt-control {
+  color: white;
+  background-color: #424242 !important;
+} */
+
+.textType2::placeholder {
+  color: rgb(56, 53, 53);
+}
+
+.selectOptionsDark {
+  color: white;
+  background-color: #424242;
+}
+
+.selectOptions {
+  color: rgb(56, 53, 53);
+  background-color: white;
+}
+
 
 .textType4 {
   display: flex;
@@ -351,11 +468,14 @@ input::file-selector-button:hover {
   border: 2px solid #dd3f34;
 }
 
+
 .select_ {
   width: 100%;
   /* margin-left: 10px; */
   margin-left: 10px;
 } 
+
+
 
 select {
   width: 100%;

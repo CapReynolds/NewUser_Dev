@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 //import 'semantic-ui-css/semantic.min.css';
 import CreateUser from "./CreateUser";
 import CheckUser from "./CheckUser";
 import DisableUser from "./DisableUser";
 import axios from "axios";
 import {Icon} from "semantic-ui-react";
+import { DarkModeContext } from "./DarkModeContext";
 
 const Form = () => {
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [visible, setVisible] = useState(true);
     const [allUsers, setAllUsers] = useState([]);
-    const [darkMode, setDarkMode] = useState(false);
+    //const [darkMode, setDarkMode] = useState(false);
     //const [pageView, setPageView] = useState(0);
-
+    const {darkMode, setDarkMode } = useContext(DarkModeContext);
+    
      function ChangeView(viewVal) {
         
         setActiveIndex(viewVal);
@@ -27,32 +29,41 @@ const Form = () => {
      function ToggleDarkMode() {
         
         //document.getElementById("")
-        const body = document.getElementsByTagName("body")[0];
-        const form = document.getElementById("form");
-        const inputField = document.getElementsByClassName("textType2")[1];
+        //const body = document.getElementsByTagName("body")[0];
 
-        console.dir(inputField);
-        console.dir(body);
+        //body.setAttribute('class', 'bodyLight');
+        //const form = document.getElementById("form");
+        //const inputField = document.getElementsByClassName("textType2")[1];
+
+        //console.dir(body);
 
         if(darkMode === false){
-            body.style.backgroundColor = "black";
-            form.style.backgroundColor = "#212120";
-            body.style.color = "white";
-            inputField.style.backgroundColor = "grey";
-            // if(inputField)
-            //     inputField.style.backgroundColor = "grey";
+            //const body = document.getElementsByTagName("body")[0];
+            //body.style.backgroundColor = "black";
+            //body.style.color = "white";
 
             setDarkMode(true);
+            //setBodyClass('bodyDark');
+
+            //const body = document.getElementsByTagName("body")[0];
+            //body.setAttribute('class', 'bodyDark');
+            //body.style.backgroundColor = "black";
+            //body.style.color = "white";
         }
         else{
-            body.style.backgroundColor = "white";
-            form.style.backgroundColor = "#f2f2f2";
-            body.style.color = "black";
-            
-            // if(inputField)
-            //     inputField.style.backgroundColor = "white";
+            //const body = document.getElementsByTagName("body")[0];
+            //body.style.backgroundColor = "white";
+            //body.style.color = "black";
             
             setDarkMode(false);
+            //setBodyClass('bodyLight');
+
+            //const body = document.getElementsByTagName("body")[0];
+            //body.setAttribute('class', 'bodyLight');
+
+
+            //body.style.backgroundColor = "white";
+            //body.style.color = "black";
         }
      }
 
@@ -71,17 +82,25 @@ const Form = () => {
         fetchData()
           // make sure to catch any error
           .catch(console.err);
-      }, [visible])
+      }, [visible]);
+
+    useEffect(()=>{
+        const body = document.getElementsByTagName("body")[0];
+        darkMode ? body.setAttribute('class', 'bodyDark') : body.setAttribute('class', 'bodyLight');
+    },[darkMode]);
 
     return (
             //<div class="form_content">
-            <div id = "form">
+            <div id = "form" class = {darkMode  ? "formDark" : "formLight"}>
                 <div class ="nav">
-                <Icon className="icons" circular bordered inverted={activeIndex == 0 ?  true : false} color='white' name='lightbulb outline' onClick={() => ToggleDarkMode()} />
-                    
-                    <Icon className="icons" circular bordered inverted={activeIndex == 0 ?  true : false} color='green' link name='user plus' onClick={() => ChangeView(0)} />
-                    <Icon className="icons" circular inverted ={activeIndex == 1 ? true : false} color='yellow' link name='users' onClick={() => ChangeView(1)} />
-                    <Icon className="icons" circular inverted={activeIndex == 2 ? true : false} color='red' link name='user delete' onClick={() => ChangeView(2)} />
+                    <div class ="nav1">
+                        <Icon className="icons" circular bordered color='orange' link name='lightbulb' onClick={() => ToggleDarkMode()} />
+                    </div>
+                    <div class ="nav2">
+                        <Icon className="icons" circular bordered inverted={activeIndex == 0 ?  true : false} color='green' link name='user plus' onClick={() => ChangeView(0)} />
+                        <Icon className="icons" circular bordered inverted ={activeIndex == 1 ? true : false} color='yellow' link name='users' onClick={() => ChangeView(1)} />
+                        <Icon className="icons" circular bordered inverted={activeIndex == 2 ? true : false} color='red' link name='user delete' onClick={() => ChangeView(2)} />
+                    </div>
                 </div>
                     {activeIndex == 0 ? <CreateUser 
                         headerTitle="Create a New User"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import imageFile from "./../../public/assets/short-paragraph.png";
@@ -6,7 +6,8 @@ import './../../public/assets/styles.css';
 import axios from 'axios';
 import { Navigate, useNavigate, Redirect } from "react-router-dom";
 import {autoCompleteFunc, closeList} from "./AutoComplete";
-import {Dimmer, Loader, Segment, Image} from "semantic-ui-react";
+import {Dimmer, Loader, Segment, Image, Container} from "semantic-ui-react";
+import { DarkModeContext } from "./DarkModeContext";
 
 const SingleUsr = ({allEmployees}) => {
     const [firstName, setFirstName] = useState('');
@@ -30,6 +31,8 @@ const SingleUsr = ({allEmployees}) => {
     const [oktaUserGroups, setOktaUserGroups] = useState([]);
     const [vpnUserGroups, setVpnUserGroups] = useState([]);
     const [managerList, setManagerList] = useState([]);
+
+    const {darkMode, setDarkMode} = useContext(DarkModeContext);
    
     const animatedComponents = makeAnimated();
 
@@ -202,13 +205,13 @@ const SingleUsr = ({allEmployees}) => {
                         <label for="firstName">First Name:<red>*</red></label>
                     </div>
                     <div class="values">
-                        <input class="textType2" type="text" id="firstName" name="firstName" placeholder="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} autoComplete="given-name" required/>
+                        <input class={ darkMode ? "textType2Dark" : "textType2"} type="text" id="firstName" name="firstName" placeholder="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} required/>
                     </div>
                     <div class="label">
                         <label for="lastName">Last Name:<red>*</red></label>
                     </div>
                     <div class="values">
-                        <input class="textType2" type="text" id="lastName" name="lastName" placeholder="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} autoComplete="family-name" required/>
+                        <input class={ darkMode ? "textType2Dark" : "textType2"} type="text" id="lastName" name="lastName" placeholder="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} required/>
                     </div>
                 </div>
                     
@@ -217,13 +220,13 @@ const SingleUsr = ({allEmployees}) => {
                         <label for="title">Title:<red>*</red></label>
                     </div>
                     <div class="values">
-                        <input class="textType2"  type="text" id="title" name="title" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} autoComplete="organization-title" required />
+                        <input class={ darkMode ? "textType2Dark" : "textType2"}  type="text" id="title" name="title" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} required />
                     </div>
                     <div class="label">
                         <label for="legalEntity">Legal Entity:<red>*</red></label>
                     </div>
                     <div class="values">
-                        <input class="textType2"  type="text" id="legalEntity" name="legalEntity" placeholder="Legal Entity" value={legalEntity} onChange={e => setLegalEntity(e.target.value)} autoComplete="organization" required />
+                        <input class={ darkMode ? "textType2Dark" : "textType2"} type="text" id="legalEntity" name="legalEntity" placeholder="Legal Entity" value={legalEntity} onChange={e => setLegalEntity(e.target.value)} required />
                     </div>
                 </div>
                 <div class="formVal4">
@@ -246,23 +249,23 @@ const SingleUsr = ({allEmployees}) => {
                     </fieldset>
                 </div>
                 <div class="formVal2">
-                    <div class="container">
+                    <div class={ darkMode ? "containerDark" : "container" }>
                         <div class="label">
                             <label for="state">Work State:</label>
                         </div>
                         <div class="values2">
-                            <select id="state" placeholder="State" value={usrState} onChange={e => DisplaySetDepts(e.target.value)}>
+                            <select id="state" class = {darkMode ? "selectOptionsDark" : "selectOptions" } placeholder="State" value={usrState} onChange={e => DisplaySetDepts(e.target.value)}>
                                 <option value="New York">New York</option>
                                 <option value="California">California</option>
                             </select>
                         </div>
                     </div>
-                    <div class="container">
+                    <div class={ darkMode ? "containerDark" : "container" }>
                         <div class="label">
                             <label for="department">Dept:</label>
                         </div>
                         <div class="values2">
-                            <select id="department" value={department} onChange={e => setDepartment(e.target.value)}>
+                            <select id="department" class = {darkMode ? "selectOptionsDark" : "selectOptions" } value={department} onChange={e => setDepartment(e.target.value)}>
                             {alldepts.map((dept) =>(
                                 <optgroup label={dept.name}>
                                     {dept.values.map((deptGroup) =>(
@@ -280,7 +283,7 @@ const SingleUsr = ({allEmployees}) => {
                         <label for="supervisor">Supervisor:<red>*</red></label>
                     </div>
                     <div id="sup">
-                        {managerList.length === 0 ? <input class="textType2" id="supervisor" type="text" name="supervisor" placeholder="Please wait" value={supervisor} onChange={e => setSupervisor(e.target.value)} onKeyUp={ e => SetManagerFunc(e.target.value)} disabled required /> : <input class="textType2" id="supervisor" type="text" name="supervisor" placeholder="Full Name" value={supervisor} onChange={e => setSupervisor(e.target.value)} onKeyUp={ e => SetManagerFunc(e.target.value)} required />}
+                        {managerList.length === 0 ? <input class= {darkMode ? "textType2Dark" : "textType2" } id="supervisor" type="text" name="supervisor" placeholder="Please wait" value={supervisor} onChange={e => setSupervisor(e.target.value)} onKeyUp={ e => SetManagerFunc(e.target.value)} disabled required /> : <input class={darkMode ? "textType2Dark" : "textType2" } id="supervisor" type="text" name="supervisor" placeholder="Full Name" value={supervisor} onChange={e => setSupervisor(e.target.value)} onKeyUp={ e => SetManagerFunc(e.target.value)} required />}
                     </div>
                 </div>
                 <div class="formVal">
@@ -288,7 +291,7 @@ const SingleUsr = ({allEmployees}) => {
                         <label for="date">Start Date:<red>*</red></label>
                     </div>
                     <div class="values2">
-                        <input class="textType2" type="date" id="date" name="date"
+                        <input class={darkMode ? "textType2Dark" : "textType2" }  type="date" id="date" name="date"
                         value={startDate}
                         onChange={e => setStartDate(e.target.value)}
                         min="2022-01-01" max="2024-12-31" required />
@@ -299,7 +302,7 @@ const SingleUsr = ({allEmployees}) => {
                         <label for="email">Email Address:</label>
                     </div>
                     <div class="values2">
-                        <input class="textType2" type="text" id="email" name="email" placeholder="Personal Email Address" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" />
+                        <input class={darkMode ? "textType2Dark" : "textType2" } type="text" id="email" name="email" placeholder="Personal Email Address" value={email} onChange={e => setEmail(e.target.value)} />
                     </div>
                 </div>
                 <div class="formVal">
@@ -307,7 +310,7 @@ const SingleUsr = ({allEmployees}) => {
                         <label for="pernr">PERNR:</label>
                     </div>
                     <div class="values2">
-                        <input class="textType2" type="text" id="pernr" name="pernr" placeholder="PERNR If Available" value={pernr} onChange={e => setPernr(e.target.value)} />
+                        <input class={darkMode ? "textType2Dark" : "textType2" } type="text" id="pernr" name="pernr" placeholder="PERNR If Available" value={pernr} onChange={e => setPernr(e.target.value)} />
                     </div>
                 </div>
                 <div class="formVal4">
@@ -331,6 +334,21 @@ const SingleUsr = ({allEmployees}) => {
                         <div class="selectID">
                             <div class="select_">
                                 <Select 
+                                    styles={{
+                                        control: (baseStyles, state) => ({
+                                            ...baseStyles,
+                                            backgroundColor: darkMode ? '#424242' : 'white',
+                                            color: darkMode ? 'red' : 'black'
+                                        }),
+                                        option: (baseStyles) => ({
+                                            ...baseStyles,
+                                            backgroundColor: darkMode ? '#424242' : 'white',
+                                            color: darkMode ? 'white' : 'black',
+                                            ':hover': {
+                                                backgroundColor: darkMode ? 'black' : '#33d4ff',
+                                            }
+                                        })
+                                    }}
                                     closeMenuOnSelect={false}
                                     components={animatedComponents}
                                     isMulti
@@ -347,6 +365,21 @@ const SingleUsr = ({allEmployees}) => {
                         <div class="selectID">
                             <div class="select_">
                                 <Select 
+                                    styles={{
+                                        control: (baseStyles, state) => ({
+                                            ...baseStyles,
+                                            backgroundColor: darkMode ? '#424242' : 'white',
+                                            color: darkMode ? 'red' : 'black'
+                                        }),
+                                        option: (baseStyles) => ({
+                                            ...baseStyles,
+                                            backgroundColor: darkMode ? '#424242' : 'white',
+                                            color: darkMode ? 'white' : 'black',
+                                            ':hover': {
+                                                backgroundColor: darkMode ? 'black' : '#33d4ff',
+                                            }
+                                        })
+                                    }}
                                     closeMenuOnSelect={false}
                                     components={animatedComponents}
                                     isMulti
