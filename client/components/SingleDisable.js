@@ -83,7 +83,7 @@ const SingleDisable = () => {
                   <h4>Enter the account name that you would like to disable.</h4>
                 </div>
             </div>
-            {isLoading && <Segment id="segment_loader"><Dimmer active inverted ><Loader size='big' content='Loading'/></Dimmer><Image src={imageFile} /></Segment>}
+            {isLoading && <Segment id="segment_loader"><Dimmer active inverted={darkMode ? false : true} ><Loader size='big' content='Loading'/></Dimmer><Image src={imageFile} /></Segment>}
             {isLoading === false && 
             <div class="form_view">
                 <form name="DisableUser" onSubmit={SubmitData} autoComplete="off">
@@ -91,6 +91,7 @@ const SingleDisable = () => {
                         <input id="accountName" class="textType2" placeholder="Account Name" type="text" value={username} onChange={(e)=>handleChange(e.target.value)} />
                         <input id="button" name="submit" type="submit" value="SUBMIT" />
                         <Confirm 
+                        className="confirmClass"
                             open={confirmWindow.open}
                             content={isEnabled ? 'Are you sure you would like to disable: ' + displayName + '?' : `This user is already disabled.`}
                             onCancel={handleCancel}

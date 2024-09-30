@@ -23,6 +23,11 @@ red{
   color: red;
 }
 
+.confirmClass {
+  color: black;
+
+}
+
 div #form {
     display: block;
     margin-left: auto;
