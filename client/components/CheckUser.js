@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 //import 'semantic-ui-css/semantic.min.css';
 import {Icon, Card, CardContent, CardHeader, CardDescription, CardMeta, Button, Segment, Loader, Image, Dimmer} from "semantic-ui-react";
 import {autoCompleteFunc, closeList} from "./AutoComplete";
 import imageFile from "./../../public/assets/short-paragraph.png";
 import axios from "axios";
+import { DarkModeContext } from "./DarkModeContext";
 
 const CheckUser = ({isActive, headerTitle, ShowView, allEmployees}) => {
 
@@ -17,9 +18,11 @@ const CheckUser = ({isActive, headerTitle, ShowView, allEmployees}) => {
         });
     const [userSet, setuserSet] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    //const [suggestionsDiv, setSuggstionsDiv] = ('suggestions2');
+    const {darkMode, setDarkMode} = useContext(DarkModeContext);
 
     const SetEmployeeName = (targetVal) => {
-        autoCompleteFunc(targetVal,allEmployees,setFullName,'suggestions2');
+        autoCompleteFunc(targetVal,allEmployees,setFullName,'suggestions2',darkMode);
     }
 
     useEffect(() =>{
@@ -137,7 +140,7 @@ const CheckUser = ({isActive, headerTitle, ShowView, allEmployees}) => {
             </div>
             <div class="result">
                 {isLoading  && <Segment id="segment_loader">
-                        <Dimmer active inverted ><Loader size='big' content='Loading'/></Dimmer>
+                        <Dimmer active inverted={darkMode ? false : true} ><Loader size='big' content='Loading'/></Dimmer>
                         <Image src={imageFile} />
                         </Segment>}
                 {userSet && isLoading === false ? 

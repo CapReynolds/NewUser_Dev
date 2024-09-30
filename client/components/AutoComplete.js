@@ -1,4 +1,4 @@
-export const autoCompleteFunc = (input, userList, SupervisorSet, suggestionsDiv) => {
+export const autoCompleteFunc = (input, userList, SupervisorSet, suggestionsDiv, darkModeStatus) => {
     closeList(suggestionsDiv);
 
     let supervisorChoice = '';
@@ -22,7 +22,10 @@ export const autoCompleteFunc = (input, userList, SupervisorSet, suggestionsDiv)
 
             //match found
             let suggestion = document.createElement('div');
-            suggestion.setAttribute('id', 'suggestion_list');
+            darkModeStatus ? suggestion.setAttribute('id', 'suggestion_list_dark') : suggestion.setAttribute('id', 'suggestion_list');
+
+            darkModeStatus ? suggestion.setAttribute('class', 'suggestions_dark') : suggestion.setAttribute('class', 'suggestions_light');
+
             suggestion.innerHTML = userList[i];
 
             suggestion.addEventListener('click', ()=>{
