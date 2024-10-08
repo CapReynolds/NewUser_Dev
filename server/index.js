@@ -614,7 +614,7 @@ app.post('/api/singleUser', async (req,res,next)=> {
         //const exec = util.promisify(require('child_process').exec);
 
         //Extact user data from request.body
-        const {firstName, lastName, startDate, title, legalEntity, usrState, supervisor, department, email, computer, gender, pernr, accountStatus, oktaUserGroups, vpnUserGroups
+        const {firstName, lastName, startDate, title, legalEntity, usrState, supervisor, department, email, computer, gender, pernr, accountStatus, segment, oktaUserGroups, vpnUserGroups
         } = req.body;
 
         let oktaGroups = [];
@@ -661,7 +661,7 @@ app.post('/api/singleUser', async (req,res,next)=> {
                 string_vpn = test2.toString();
             }
 
-            const {stdout, stderr, err} = await exec(`${SingleUserScript} '${usrObj.firstName}' '${usrObj.lastName}' '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.accountStatus}' '${combinedData}' '${string_vpn}' '${string_okta}' '${loggedInUser}' '${loggedInPass}' '${loggedAuthType}' '${loggedOnUser}'`, {'shell':'powershell.exe'})
+            const {stdout, stderr, err} = await exec(`${SingleUserScript} '${usrObj.firstName}' '${usrObj.lastName}' '${usrObj.title}' '${usrObj.legalEntity}' '${usrObj.usrState}' '${usrObj.supervisor}' '${usrObj.department}' '${usrObj.email}' '${usrObj.computer}' '${usrObj.gender}' '${usrObj.accountStatus}' '${usrObj.segment}' '${combinedData}' '${string_vpn}' '${string_okta}' '${loggedInUser}' '${loggedInPass}' '${loggedAuthType}' '${loggedOnUser}'`, {'shell':'powershell.exe'})
             
             if(stdout)
                 return stdout;

@@ -22,6 +22,7 @@ const SingleUsr = ({allEmployees}) => {
     const [computer, setComputer] = useState('mac');
     const [gender, setGender] = useState('male');
     const [status, setStatus] = useState('full');
+    const [segment, setSegment] = useState('marvel_studios')
     const [alldepts, setAllDepts] = useState([]);
     const [pernr, setPernr] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -142,6 +143,7 @@ const SingleUsr = ({allEmployees}) => {
             gender: gender,
             pernr: pernr,
             accountStatus: status,
+            segment: segment,
             oktaUserGroups: oktaUserGroups,
             vpnUserGroups: vpnUserGroups
         }
@@ -196,6 +198,25 @@ const SingleUsr = ({allEmployees}) => {
                         <div class="radio">
                             <input type="radio" id="temp" name="temp" value='temp' checked={status === 'temp'} onChange={e => setStatus(e.target.value)} />
                             <label for="temp">  Temp</label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="formVal4">
+                <fieldset>
+                    <legend> Segment </legend>
+                    <div class="radioID">
+                        <div class="radio">
+                            <input type="radio" id="marvel_studios" name="marvel_studios" value='marvel_studios' checked={status === 'marvel_studios'} onChange={e => setSegment(e.target.value)} />
+                            <label for="full">  Marvel Studios</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" id="studio" name="studio" value='studio' checked={status === 'studio'} onChange={e => setSegment(e.target.value)} />
+                            <label for="nm-marvel">  Studios</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" id="other" name="other" value='other' checked={status === 'other'} onChange={e => setSegment(e.target.value)} />
+                            <label for="temp">  Other</label>
                         </div>
                     </div>
                 </fieldset>
