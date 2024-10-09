@@ -207,16 +207,16 @@ const SingleUsr = ({allEmployees}) => {
                     <legend> Segment </legend>
                     <div class="radioID">
                         <div class="radio">
-                            <input type="radio" id="marvel_studios" name="marvel_studios" value='marvel_studios' checked={status === 'marvel_studios'} onChange={e => setSegment(e.target.value)} />
-                            <label for="full">  Marvel Studios</label>
+                            <input type="radio" id="marvel_studios" name="marvel_studios" value='marvel_studios' checked={segment === 'marvel_studios'} onChange={e => setSegment(e.target.value)} />
+                            <label for="marvel_studios">  Marvel Studios</label>
                         </div>
                         <div class="radio">
-                            <input type="radio" id="studio" name="studio" value='studio' checked={status === 'studio'} onChange={e => setSegment(e.target.value)} />
-                            <label for="nm-marvel">  Studios</label>
+                            <input type="radio" id="studio" name="studio" value='studio' checked={segment === 'studio'} onChange={e => setSegment(e.target.value)} />
+                            <label for="studio">  Studios</label>
                         </div>
                         <div class="radio">
-                            <input type="radio" id="other" name="other" value='other' checked={status === 'other'} onChange={e => setSegment(e.target.value)} />
-                            <label for="temp">  Other</label>
+                            <input type="radio" id="other" name="other" value='other' checked={segment === 'other'} onChange={e => setSegment(e.target.value)} />
+                            <label for="other">  Other</label>
                         </div>
                     </div>
                 </fieldset>
